@@ -35,6 +35,11 @@
   align-items: center;
   font-weight: 400;
   cursor: pointer;
+  transition: all 0.6s ease;
+
+  &.active {
+    background-color: #d3d3d3;
+  }
 }
 
 .arrow__img {
@@ -42,7 +47,11 @@
   height: 4.2rem;
   object-fit: cover;
   display: block;
-  cursor: pointer;
+  // cursor: pointer;
   border: 1px solid #d7d7d6;
   padding: 1rem;
+}
+
+.pagination__btn.disabled {
+  cursor: not-allowed;
 }

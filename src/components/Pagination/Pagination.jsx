@@ -1,26 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Pagination.scss";
 import skipRightArrow from "../../assets/skipRightArrow.svg";
 import rightArrow from "../../assets/rightArrow.svg";
 import skipLeftArrow from "../../assets/skipLeftArrow.svg";
 import leftArrow from "../../assets/leftArrow.svg";
 
-const Pagination = ({ data }) => {
-  const { products, total, skip, limit } = data || [];
-  console.log(products, total, skip, limit);
+const Pagination = ({
+  page,
+  pages,
+  products,
+  setPage,
+  seletedQty,
+  setSeletedQty,
+}) => {
+  const onChange = (e) => {
+    setSeletedQty(e.target.value);
+    sessionStorage.setItem("selectedQty", seletedQty);
+  };
 
-  const pages = total / limit;
-  console.log(pages);
-  console.log(products);
+  const handlePages = (page) => {
+    sessionStorage.setItem("page", page);
+  };
 
-  // pages 1 ~ 4이하 - 1 5 ... 10
-  // pages 5이상 - 1... 4 5 6 ...10
+  const handleSeletedQty = (seletedQty) => {
+    sessionStorage.setItem("selectedQty", seletedQty);
+  };
+
+  useEffect(() => {
+    handlePages(page);
+    handleSeletedQty(seletedQty);
+  }, [page, pages, products, seletedQty]);
 
   return (
     <div className="pagination__container">
       <div className="pagination__select-box">
         <label>페이지당 행:</label>
-        <select className="pagination__select">
+        <select
+          className="pagination__select"
+          value={seletedQty}
+          onChange={onChange}
+        >
           <option value="10">10</option>
           <option value="20">20</option>
           <option value="50">50</option>
@@ -28,15 +47,68 @@ const Pagination = ({ data }) => {
       </div>
 
       <div className="pagination__box">
-        <img src={skipLeftArrow} alt="skipLeftArrow" className="arrow__img" />
-        <img src={leftArrow} alt="leftArrow" className="arrow__img" />
-        {products.map((product) => (
+        <button
+          onClick={() => {
+            setPage(1);
+            handlePages(1);
+          }}
+          disabled={page === 1}
+          className={page === 1 ? "pagination__btn disabled" : ""}
+        >
+          <img src={skipLeftArrow} alt="skipLeftArrow" className="arrow__img" />
+        </button>
+        <button
+          onClick={() => {
+            setPage((prevState) => prevState - 1);
+            handlePages(page);
+          }}
+          disabled={page === 1}
+          className={page === 1 ? "pagination__btn disabled" : ""}
+        >
+          <img src={leftArrow} alt="leftArrow" className="arrow__img" />
+        </button>
+        {products.slice(0, pages)?.map((product) => (
           <div key={product.id}>
-            <h2 className="pagination__index-number">{product.id}</h2>
+            <h2
+              className={`pagination__index-number ${
+                product.id === page ||
+                product.id === parseInt(sessionStorage.getItem("page"))
+                  ? "active"
+                  : ""
+              }`}
+              onClick={() => {
+                setPage(product.id);
+                handlePages(product.id);
+              }}
+            >
+              {product.id}
+            </h2>
           </div>
         ))}
-        <img src={rightArrow} alt="rightArrow" className="arrow__img" />
-        <img src={skipRightArrow} alt="skipRightArrow" className="arrow__img" />
+        <button
+          onClick={() => {
+            setPage((prevState) => prevState + 1);
+            handlePages(page);
+          }}
+          disabled={page === pages}
+          className={page === pages ? "pagination__btn disabled" : ""}
+        >
+          <img src={rightArrow} alt="rightArrow" className="arrow__img" />
+        </button>
+        <button
+          onClick={() => {
+            setPage(10);
+            handlePages(10);
+          }}
+          disabled={page === pages}
+          className={page === pages ? "pagination__btn disabled" : ""}
+        >
+          <img
+            src={skipRightArrow}
+            alt="skipRightArrow"
+            className="arrow__img"
+          />
+        </button>
       </div>
     </div>
   );

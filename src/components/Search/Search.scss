@@ -37,6 +37,7 @@
     padding: 1.4rem;
     justify-content: space-between;
     gap: 9.6rem;
+    width: 20rem;
 
     & h2 {
       font-weight: 400;
@@ -87,8 +88,8 @@
 
 .arrow__up,
 .arrow__down {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1.8rem;
+  height: 1.8rem;
   object-fit: contain;
   display: block;
   cursor: pointer;
