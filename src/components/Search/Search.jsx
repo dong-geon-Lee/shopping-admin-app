@@ -21,9 +21,6 @@ const Search = () => {
     sessionStorage.getItem("search") || ""
   );
 
-  const product = useSelector((state) => state.product.products);
-  console.log(product);
-
   const dispatch = useDispatch();
 
   const handleCategory = () => {
@@ -40,32 +37,26 @@ const Search = () => {
   };
 
   const findProductBrand = () => {
-    const brandItems = [
-      ...new Set(products.map((product) => product.brand.toLowerCase())),
+    const equalBrandItems = [
+      ...new Set(
+        products.filter((product) => {
+          return product.brand.toLowerCase().match(searchValue);
+        })
+      ),
     ];
-
-    const equalBrandItems = products.filter(
-      (product) =>
-        product.brand.toLowerCase().startsWith(searchValue) ||
-        product.brand.toLowerCase().endsWith(searchValue) ||
-        searchValue.toLowerCase() === brandItems.includes(searchValue)
-    );
 
     dispatch(updateProducts(equalBrandItems));
     sessionStorage.setItem("items", JSON.stringify(equalBrandItems));
   };
 
   const findProductTitle = () => {
-    const titleItems = [
-      ...new Set(products.map((product) => product.title.toLowerCase())),
+    const productTitleList = [
+      ...new Set(
+        products.filter((product) => {
+          return product.title.toLowerCase().match(searchValue);
+        })
+      ),
     ];
-
-    const productTitleList = products.filter(
-      (product) =>
-        product.title.toLowerCase().startsWith(searchValue) ||
-        product.title.toLowerCase().endsWith(searchValue) ||
-        titleItems.includes(product || searchValue)
-    );
 
     dispatch(updateProducts(productTitleList));
     sessionStorage.setItem("items", JSON.stringify(productTitleList));
@@ -76,19 +67,13 @@ const Search = () => {
       ...new Set(products.map((product) => product.description.toLowerCase())),
     ];
 
-    const findDesStr = descriptionItems.filter((item) =>
-      item.split(" ").includes(searchValue)
-    );
+    const findDesStr = descriptionItems.filter((item) => {
+      return item.match(searchValue);
+    });
 
-    const findDesWords = descriptionItems.filter(
-      (item) => item.startsWith(searchValue) || item.endsWith(searchValue)
-    );
-
-    const productDesList = products.filter(
-      (product) =>
-        findDesStr.includes(product.description.toLowerCase()) ||
-        findDesWords.includes(product.description.toLowerCase())
-    );
+    const productDesList = products.filter((product) => {
+      return findDesStr.includes(product.description.toLowerCase());
+    });
 
     dispatch(updateProducts(productDesList));
     sessionStorage.setItem("items", JSON.stringify(productDesList));
@@ -104,7 +89,7 @@ const Search = () => {
     if (category === "상품내용") findProductDescription();
   };
 
-  let sortedItems = [
+  const sortedItems = [
     { id: 1, title: "전체" },
     { id: 2, title: "상품명" },
     { id: 3, title: "브랜드" },
