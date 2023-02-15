@@ -29,13 +29,10 @@ const productSlice = createSlice({
         totalPage * (state.page - 1),
         totalPage * state.page
       );
-
       state.products = itemsQty;
-      state.page = perPage;
     },
   },
 });
 
 export const { changePage, changeQty, updateProducts } = productSlice.actions;
-
 export const productReducer = productSlice.reducer;

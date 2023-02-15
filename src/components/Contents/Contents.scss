@@ -63,3 +63,12 @@
     font-size: 1.4rem;
   }
 }
+
+.loading,
+.error {
+  font-size: 3.6rem;
+  position: absolute;
+  top: 200%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

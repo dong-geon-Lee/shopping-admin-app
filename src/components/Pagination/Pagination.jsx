@@ -7,13 +7,7 @@ import skipLeftArrow from "../../assets/skipLeftArrow.svg";
 import leftArrow from "../../assets/leftArrow.svg";
 import "./Pagination.scss";
 
-const Pagination = ({
-  page,
-  setPage,
-  seletedQty,
-  setSeletedQty,
-  resultItems,
-}) => {
+const Pagination = ({ page, setPage, seletedQty, setSeletedQty }) => {
   const state = useSelector((state) => state.product);
   const product = useSelector((state) => state.product.products);
   const dispatch = useDispatch();
@@ -40,7 +34,7 @@ const Pagination = ({
   useEffect(() => {
     handlePages(page);
     handleSeletedQty(seletedQty);
-  }, [page, pages, seletedQty, resultItems]);
+  }, [page, pages, seletedQty]);
 
   return (
     <div className="pagination__container">

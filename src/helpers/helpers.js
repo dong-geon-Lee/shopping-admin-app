@@ -33,3 +33,23 @@ export const calcProductDesCount = (products, searchValue) => {
 
   return productDesList;
 };
+
+export const calcCurrentProduct = (page, seletedQty) => {
+  let items = JSON.parse(sessionStorage.getItem("items")) || [];
+  let perPage = items.length / parseInt(seletedQty);
+  let totalPage = items.length / perPage;
+  let resultItems = items.slice(totalPage * (page - 1), totalPage * page);
+  return resultItems;
+};
+
+export const formattedDescription = (product) => {
+  return product?.description.length > 40
+    ? product?.description.slice(0, 40).trim() + "..."
+    : product?.description.trim();
+};
+
+export const formattedPrice = (product) => {
+  return new Intl.NumberFormat("en-IN", {
+    maximumSignificantDigits: 3,
+  }).format(product.price);
+};

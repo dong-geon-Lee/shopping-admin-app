@@ -126,7 +126,9 @@ const Search = () => {
           </form>
         </div>
       </div>
-      <p className="search__results">검색된 데이터: {resultStorage.length}건</p>
+      <p className="search__results">
+        검색된 데이터: {resultStorage?.length}건
+      </p>
     </>
   );
 };
