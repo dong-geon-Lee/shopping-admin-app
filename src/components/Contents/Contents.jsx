@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProducts,
+  getProducts,
   updateProducts,
 } from "../../redux-toolkit/productSlice";
 import { useQuery } from "react-query";
@@ -10,37 +11,44 @@ import Pagination from "../Pagination/Pagination";
 import "./Contents.scss";
 
 const Contents = () => {
-  const [page, setPage] = useState(sessionStorage.getItem("page") || 1);
+  const [page, setPage] = useState(
+    parseInt(sessionStorage.getItem("page")) || 1
+  );
   const [seletedQty, setSeletedQty] = useState(
-    sessionStorage.getItem("selectedQty") || 10
+    parseInt(sessionStorage.getItem("selectedQty")) || 10
   );
   const [curItems, setCurItems] = useState([]);
-
   const product = useSelector((state) => state.product.products);
-  console.log(product, product.length);
-  const dispatch = useDispatch();
 
   const { isLoading, error, data } = useQuery("products", fetchProducts);
   const { products, total } = data || [];
   const pages = Math.floor(product.length / seletedQty) + 1;
-  console.log(pages);
 
-  useEffect(() => {
-    const displayProducts = (total, seletedQty, product) => {
-      let perPage = total / parseInt(seletedQty);
-      let totalPage = total / perPage;
-      let itemsQty = product?.slice(totalPage * (page - 1), totalPage * page);
-      setCurItems(itemsQty);
-    };
+  // const displayProducts = (total, seletedQty, product) => {
+  //   let perPage = total / parseInt(seletedQty);
+  //   let totalPage = total / perPage;
+  //   let itemsQty = product?.slice(totalPage * (page - 1), totalPage * page);
 
-    displayProducts(product.length, seletedQty, product);
-  }, [data, page, seletedQty, product, total, product.length, products]);
+  //   console.log(perPage, "각 페이지");
+  //   console.log(totalPage, "전체 페이지");
+  //   console.log(itemsQty, "재고");
+  //   setCurItems(itemsQty);
+  // };
 
+  // useEffect(() => {
+  //   displayProducts(product.length, seletedQty, product);
+  // }, [seletedQty, product, product.length, total, products, page, pages]);
+
+  console.log(page, pages, seletedQty, "수자야");
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
 
-  let items = JSON.parse(sessionStorage.getItem("items")) || curItems;
-  console.log(items);
+  let items = JSON.parse(sessionStorage.getItem("items")) || [];
+  let perPage = items.length / parseInt(seletedQty);
+  let totalPage = items.length / perPage;
+  let resultItems = items.slice(totalPage * (page - 1), totalPage * page);
+
+  console.log(resultItems);
 
   return (
     <div className="contents__container">
@@ -54,38 +62,38 @@ const Contents = () => {
         <h1>재고</h1>
       </div>
 
-      {products?.slice(0, pages) &&
-        items?.map((product) => (
-          <div className="contents__classification" key={product.id}>
-            <p className="contents__product-number">{product.id}</p>
-            <p className="contents__product-title">{product.title}</p>
-            <p className="contents__product-brand">{product.brand}</p>
-            <h2 className="description">
-              {product.description.length > 40
-                ? product.description.slice(0, 40).trim() + "..."
-                : product.description.trim()}
-            </h2>
-            <div className="contents__price-box">
-              <img src={dollar} alt="dollar" className="dollar__img" />
-              <p className="price__text">
-                {new Intl.NumberFormat("en-IN", {
-                  maximumSignificantDigits: 3,
-                }).format(product.price)}
-              </p>
-            </div>
-            <p className="contents__product-rating">{product.rating}</p>
-            <p className="contents__product-stock">{product.stock}</p>
+      {resultItems.map((product) => (
+        <div className="contents__classification" key={product?.id}>
+          <p className="contents__product-number">{product?.id}</p>
+          <p className="contents__product-title">{product?.title}</p>
+          <p className="contents__product-brand">{product?.brand}</p>
+          <h2 className="description">
+            {product?.description.length > 40
+              ? product?.description.slice(0, 40).trim() + "..."
+              : product?.description.trim()}
+          </h2>
+          <div className="contents__price-box">
+            <img src={dollar} alt="dollar" className="dollar__img" />
+            <p className="price__text">
+              {new Intl.NumberFormat("en-IN", {
+                maximumSignificantDigits: 3,
+              }).format(product.price)}
+            </p>
           </div>
-        ))}
+          <p className="contents__product-rating">{product.rating}</p>
+          <p className="contents__product-stock">{product.stock}</p>
+        </div>
+      ))}
 
       <Pagination
         page={page}
         pages={pages}
-        products={products}
+        // products={products}
         setPage={setPage}
-        seletedQty={seletedQty}
+        seletedQty={parseInt(seletedQty)}
         setSeletedQty={setSeletedQty}
         setCurItems={setCurItems}
+        resultItems={resultItems}
       />
     </div>
   );

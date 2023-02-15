@@ -8,17 +8,13 @@ import { Provider } from "react-redux";
 import { store } from "./redux-toolkit/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-const queryClient = new QueryClient({
-  defaultOptions: { queries: { cacheTime: 1000 * 60 * 60 * 24 } },
-});
+const queryClient = new QueryClient();
 
 root.render(
-  <>
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ReactQueryDevtools />
-      </QueryClientProvider>
-    </Provider>
-  </>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
+      <App />
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+  </Provider>
 );

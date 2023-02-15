@@ -11,7 +11,7 @@ import "./Search.scss";
 
 const Search = () => {
   const { data } = useQuery("products", fetchProducts);
-  const { products } = data || [];
+  const { products, pages } = data || [];
 
   const [categoryActive, setCategoryActive] = useState(false);
   const [category, setCategory] = useState(
@@ -22,6 +22,7 @@ const Search = () => {
   );
 
   const dispatch = useDispatch();
+  const product = useSelector((state) => state.product.products);
 
   const handleCategory = () => {
     setCategoryActive((prevState) => !prevState);
@@ -79,14 +80,22 @@ const Search = () => {
     sessionStorage.setItem("items", JSON.stringify(productDesList));
   };
 
+  const findProductAll = () => {
+    dispatch(updateProducts(products));
+    sessionStorage.setItem("items", JSON.stringify(products));
+  };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     sessionStorage.setItem("category", category);
     sessionStorage.setItem("search", searchValue);
 
+    if (category === "전체") findProductAll();
     if (category === "브랜드") findProductBrand();
     if (category === "상품명") findProductTitle();
     if (category === "상품내용") findProductDescription();
+
+    window.location.reload();
   };
 
   const sortedItems = [
@@ -96,9 +105,28 @@ const Search = () => {
     { id: 4, title: "상품내용" },
   ];
 
+  // const [page, setPage] = useState(sessionStorage.getItem("page") || 1);
+  // const [seletedQty, setSeletedQty] = useState(
+  //   sessionStorage.getItem("selectedQty") || 10
+  // );
+  // const [curItems, setCurItems] = useState(
+  //   JSON.parse(sessionStorage.getItem("items")) || []
+  // );
+
+  // const displayProducts = (total, seletedQty, product) => {
+  //   let perPage = total / parseInt(seletedQty);
+  //   let totalPage = total / perPage;
+  //   let itemsQty = product?.slice(totalPage * (page - 1), totalPage * page);
+  //   setCurItems(itemsQty);
+  // };
+
+  // useEffect(() => {
+  //   displayProducts(product.length, seletedQty, product);
+  // }, [seletedQty, product, product.length, total, products, page, pages]);
+
   useEffect(() => {
     setCategory(category);
-  }, [category]);
+  }, [product, pages, category, categoryActive]);
 
   return (
     <>
@@ -153,7 +181,7 @@ const Search = () => {
         </div>
       </div>
       <p className="search__results">
-        검색된 데이터: {JSON.parse(sessionStorage.getItem("items")).length}건
+        검색된 데이터: {JSON.parse(sessionStorage.getItem("items"))?.length}건
       </p>
     </>
   );
