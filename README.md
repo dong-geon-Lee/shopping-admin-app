@@ -6,6 +6,10 @@
 
 ## :link: &nbsp; Link
 - 준비중
+
+> 첫번쨰: 레포지토리 다운 후, 터미널에 code . 입력합니다.  
+> 두번쨰: 터미널에 npm install 입력합니다.   
+> 세번쨰: 터미널에 npm start 입력합니다.
 <br/>  
 
 ## :alarm_clock: &nbsp; Period
