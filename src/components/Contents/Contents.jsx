@@ -16,9 +16,14 @@ const Contents = () => {
   const [page, setPage] = useState(pageStorage || 1);
   const [seletedQty, setSeletedQty] = useState(selectStorage || 10);
   const { isLoading, error } = useQuery("products", fetchProducts);
+  const products = calcCurrentProduct(page, seletedQty);
+  const isProducts = products.length === 0;
 
   if (isLoading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">Error</div>;
+  if (isProducts) {
+    return <div className="error">Please search for a product.</div>;
+  }
 
   return (
     <div className="contents__container">
@@ -32,7 +37,7 @@ const Contents = () => {
         <h1>재고</h1>
       </div>
 
-      {calcCurrentProduct(page, seletedQty).map((product) => (
+      {products?.map((product) => (
         <div className="contents__classification" key={product?.id}>
           <p className="contents__product-number">{product?.id}</p>
           <p className="contents__product-title">{product?.title}</p>

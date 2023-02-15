@@ -23,8 +23,8 @@ const productSlice = createSlice({
 
     updateProducts: (state, action) => {
       let products = action.payload;
-      let perPage = products.length / parseInt(state.selectedQty);
-      let totalPage = products.length / perPage;
+      let perPage = products?.length / parseInt(state.selectedQty);
+      let totalPage = products?.length / perPage;
       let itemsQty = products?.slice(
         totalPage * (state.page - 1),
         totalPage * state.page
