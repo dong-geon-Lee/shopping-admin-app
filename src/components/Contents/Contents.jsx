@@ -1,10 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProducts,
-  getProducts,
-  updateProducts,
-} from "../../redux-toolkit/productSlice";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { fetchProducts } from "../../api/api";
 import { useQuery } from "react-query";
 import dollar from "../../assets/dollar.svg";
 import Pagination from "../Pagination/Pagination";
@@ -17,29 +13,11 @@ const Contents = () => {
   const [seletedQty, setSeletedQty] = useState(
     parseInt(sessionStorage.getItem("selectedQty")) || 10
   );
-  const [curItems, setCurItems] = useState([]);
-  const product = useSelector((state) => state.product.products);
 
-  const { isLoading, error, data } = useQuery("products", fetchProducts);
-  const { products, total } = data || [];
+  const product = useSelector((state) => state.product.products);
+  const { isLoading, error } = useQuery("products", fetchProducts);
   const pages = Math.floor(product.length / seletedQty) + 1;
 
-  // const displayProducts = (total, seletedQty, product) => {
-  //   let perPage = total / parseInt(seletedQty);
-  //   let totalPage = total / perPage;
-  //   let itemsQty = product?.slice(totalPage * (page - 1), totalPage * page);
-
-  //   console.log(perPage, "각 페이지");
-  //   console.log(totalPage, "전체 페이지");
-  //   console.log(itemsQty, "재고");
-  //   setCurItems(itemsQty);
-  // };
-
-  // useEffect(() => {
-  //   displayProducts(product.length, seletedQty, product);
-  // }, [seletedQty, product, product.length, total, products, page, pages]);
-
-  console.log(page, pages, seletedQty, "수자야");
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error</div>;
 
@@ -47,8 +25,6 @@ const Contents = () => {
   let perPage = items.length / parseInt(seletedQty);
   let totalPage = items.length / perPage;
   let resultItems = items.slice(totalPage * (page - 1), totalPage * page);
-
-  console.log(resultItems);
 
   return (
     <div className="contents__container">
@@ -92,7 +68,6 @@ const Contents = () => {
         setPage={setPage}
         seletedQty={parseInt(seletedQty)}
         setSeletedQty={setSeletedQty}
-        setCurItems={setCurItems}
         resultItems={resultItems}
       />
     </div>

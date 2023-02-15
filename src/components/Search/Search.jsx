@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "../../api/api";
+import { updateProducts } from "../../redux-toolkit/productSlice";
+import { sortedItems } from "../../constants/constants";
 import {
-  fetchProducts,
-  updateProducts,
-} from "../../redux-toolkit/productSlice";
+  calcBrandCount,
+  calcProductDesCount,
+  calcProductTitleCount,
+} from "../../helpers/helpers";
 import arrowUp from "../../assets/arrow-open-up.svg";
 import arrowDown from "../../assets/arrow-open-down.svg";
 import "./Search.scss";
 
 const Search = () => {
-  const { data } = useQuery("products", fetchProducts);
-  const { products, pages } = data || [];
+  const categoryStorage = sessionStorage.getItem("category");
+  const searchStorage = sessionStorage.getItem("search");
+  const resultStorage = JSON.parse(sessionStorage.getItem("items"));
 
   const [categoryActive, setCategoryActive] = useState(false);
-  const [category, setCategory] = useState(
-    sessionStorage.getItem("category") || "전체"
-  );
-  const [searchValue, setSearchValue] = useState(
-    sessionStorage.getItem("search") || ""
-  );
+  const [category, setCategory] = useState(categoryStorage || "전체");
+  const [searchValue, setSearchValue] = useState(searchStorage || "");
 
+  const { data } = useQuery("products", fetchProducts);
+  const { products } = data || [];
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.products);
 
   const handleCategory = () => {
     setCategoryActive((prevState) => !prevState);
@@ -38,44 +40,19 @@ const Search = () => {
   };
 
   const findProductBrand = () => {
-    const equalBrandItems = [
-      ...new Set(
-        products.filter((product) => {
-          return product.brand.toLowerCase().match(searchValue);
-        })
-      ),
-    ];
-
-    dispatch(updateProducts(equalBrandItems));
-    sessionStorage.setItem("items", JSON.stringify(equalBrandItems));
+    const brandItems = calcBrandCount(products, searchValue);
+    dispatch(updateProducts(brandItems));
+    sessionStorage.setItem("items", JSON.stringify(brandItems));
   };
 
   const findProductTitle = () => {
-    const productTitleList = [
-      ...new Set(
-        products.filter((product) => {
-          return product.title.toLowerCase().match(searchValue);
-        })
-      ),
-    ];
-
+    const productTitleList = calcProductTitleCount(products, searchValue);
     dispatch(updateProducts(productTitleList));
     sessionStorage.setItem("items", JSON.stringify(productTitleList));
   };
 
   const findProductDescription = () => {
-    const descriptionItems = [
-      ...new Set(products.map((product) => product.description.toLowerCase())),
-    ];
-
-    const findDesStr = descriptionItems.filter((item) => {
-      return item.match(searchValue);
-    });
-
-    const productDesList = products.filter((product) => {
-      return findDesStr.includes(product.description.toLowerCase());
-    });
-
+    const productDesList = calcProductDesCount(products, searchValue);
     dispatch(updateProducts(productDesList));
     sessionStorage.setItem("items", JSON.stringify(productDesList));
   };
@@ -98,36 +75,6 @@ const Search = () => {
     window.location.reload();
   };
 
-  const sortedItems = [
-    { id: 1, title: "전체" },
-    { id: 2, title: "상품명" },
-    { id: 3, title: "브랜드" },
-    { id: 4, title: "상품내용" },
-  ];
-
-  // const [page, setPage] = useState(sessionStorage.getItem("page") || 1);
-  // const [seletedQty, setSeletedQty] = useState(
-  //   sessionStorage.getItem("selectedQty") || 10
-  // );
-  // const [curItems, setCurItems] = useState(
-  //   JSON.parse(sessionStorage.getItem("items")) || []
-  // );
-
-  // const displayProducts = (total, seletedQty, product) => {
-  //   let perPage = total / parseInt(seletedQty);
-  //   let totalPage = total / perPage;
-  //   let itemsQty = product?.slice(totalPage * (page - 1), totalPage * page);
-  //   setCurItems(itemsQty);
-  // };
-
-  // useEffect(() => {
-  //   displayProducts(product.length, seletedQty, product);
-  // }, [seletedQty, product, product.length, total, products, page, pages]);
-
-  useEffect(() => {
-    setCategory(category);
-  }, [product, pages, category, categoryActive]);
-
   return (
     <>
       <div className="container">
@@ -138,7 +85,6 @@ const Search = () => {
             <div className="category__box">
               <div className="search__menu">
                 <h2>{category}</h2>
-
                 {!categoryActive ? (
                   <img
                     src={arrowDown}
@@ -147,26 +93,26 @@ const Search = () => {
                     onClick={() => handleCategory()}
                   />
                 ) : (
-                  <img
-                    src={arrowUp}
-                    alt="arrow-up"
-                    className="arrow__up"
-                    onClick={() => handleCategory()}
-                  />
+                  <>
+                    <img
+                      src={arrowUp}
+                      alt="arrow-up"
+                      className="arrow__up"
+                      onClick={() => handleCategory()}
+                    />
+                    <ul className="category__list">
+                      {sortedItems.map((item) => (
+                        <li
+                          key={item.id}
+                          onClick={() => handleFilterCategory(item.title)}
+                        >
+                          {item.title}
+                        </li>
+                      ))}
+                    </ul>
+                  </>
                 )}
               </div>
-              {categoryActive && (
-                <ul className="category__list">
-                  {sortedItems.map((item) => (
-                    <li
-                      key={item.id}
-                      onClick={() => handleFilterCategory(item.title)}
-                    >
-                      {item.title}
-                    </li>
-                  ))}
-                </ul>
-              )}
             </div>
             <input
               type="text"
@@ -180,9 +126,7 @@ const Search = () => {
           </form>
         </div>
       </div>
-      <p className="search__results">
-        검색된 데이터: {JSON.parse(sessionStorage.getItem("items"))?.length}건
-      </p>
+      <p className="search__results">검색된 데이터: {resultStorage.length}건</p>
     </>
   );
 };
