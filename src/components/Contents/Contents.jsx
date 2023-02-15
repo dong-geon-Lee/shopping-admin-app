@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
 import { fetchProducts } from "../../api/api";
 import { useQuery } from "react-query";
 import {
@@ -14,13 +13,9 @@ import "./Contents.scss";
 const Contents = () => {
   const pageStorage = parseInt(sessionStorage.getItem("page"));
   const selectStorage = parseInt(sessionStorage.getItem("selectedQty"));
-
   const [page, setPage] = useState(pageStorage || 1);
   const [seletedQty, setSeletedQty] = useState(selectStorage || 10);
   const { isLoading, error } = useQuery("products", fetchProducts);
-
-  const product = useSelector((state) => state.product.products);
-  const pages = Math.floor(product.length / seletedQty) + 1;
 
   if (isLoading) return <div className="loading">Loading...</div>;
   if (error) return <div className="error">Error</div>;
@@ -54,7 +49,6 @@ const Contents = () => {
 
       <Pagination
         page={page}
-        pages={pages}
         setPage={setPage}
         seletedQty={parseInt(seletedQty)}
         setSeletedQty={setSeletedQty}

@@ -28,8 +28,7 @@ const Pagination = ({ page, setPage, seletedQty, setSeletedQty }) => {
     sessionStorage.setItem("selectedQty", seletedQty);
   };
 
-  let pages = Math.ceil(state.products.length / state.selectedQty);
-  console.log(pages);
+  const pages = Math.ceil(state.products.length / state.selectedQty);
 
   useEffect(() => {
     handlePages(page);
@@ -72,25 +71,23 @@ const Pagination = ({ page, setPage, seletedQty, setSeletedQty }) => {
         >
           <img src={leftArrow} alt="leftArrow" className="arrow__img" />
         </button>
-        {product &&
-          product?.slice(0, pages)?.map((product, index) => (
-            <div key={product.id}>
-              <h2
-                className={`pagination__index-number ${
-                  index + 1 === page
-                    ? // index + 1 === parseInt(sessionStorage.getItem("page"))
-                      "active"
-                    : ""
-                }`}
-                onClick={() => {
-                  setPage(index + 1);
-                  handlePages(index + 1);
-                }}
-              >
-                {index + 1}
-              </h2>
-            </div>
-          ))}
+
+        {product?.slice(0, pages)?.map((product, index) => (
+          <div key={product.id}>
+            <h2
+              className={`pagination__index-number ${
+                index + 1 === page ? "active" : ""
+              }`}
+              onClick={() => {
+                setPage(index + 1);
+                handlePages(index + 1);
+              }}
+            >
+              {index + 1}
+            </h2>
+          </div>
+        ))}
+
         <button
           onClick={() => {
             setPage((prevState) => prevState + 1);
@@ -103,8 +100,8 @@ const Pagination = ({ page, setPage, seletedQty, setSeletedQty }) => {
         </button>
         <button
           onClick={() => {
-            setPage(10);
-            handlePages(10);
+            setPage(pages);
+            handlePages(pages);
           }}
           disabled={page === pages}
           className={page === pages ? "pagination__btn disabled" : ""}
