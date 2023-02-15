@@ -1,70 +1,64 @@
-# Getting Started with Create React App
+<img width="100" height="100" alt="bank" src="https://user-images.githubusercontent.com/69576865/219000242-c6edcdad-7e15-491f-af09-cd97650a85ae.png">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## :mag_right: &nbsp; Intro
+> 쇼핑 관리자 페이지 입니다. 제품을 검색하고 페이지를 클릭하여 목록을 확인 할 수 있습니다.  
+<br/>
 
-## Available Scripts
+## :link: &nbsp; Link
+- 준비중
+<br/>  
 
-In the project directory, you can run:
+## :alarm_clock: &nbsp; Period
+ - 2023.02.13 - 2023.02.15
+<br/>
 
-### `npm start`
+## :seedling: &nbsp; Stack  
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=fff)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=CSS3&logoColor=fff)
+![JAVASCRIPT](https://img.shields.io/badge/JavaScript-343a40?style=for-the-badge&logo=JavaScript&logoColor=F7DF1E)  
+![React](https://img.shields.io/badge/React-444444?style=for-the-badge&logo=React)
+![ReduxToolkit](https://img.shields.io/badge/ReduxToolkit-764ABC?style=for-the-badge&logo=ReduxToolkit&logoColor=fff)
+![Sass](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=Sass&logoColor=fff)
+<br/>
+<br/>
+<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## :eyes: &nbsp; Web View
+<details>
+<summary>랜딩페이지</summary>  
+<div markdown="1">
+</div>
+<img width="600" alt=""
+ src="https://user-images.githubusercontent.com/69576865/219005222-d5140efc-22df-49cc-91b5-6ce9e7e0bac6.gif">
+</details>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<details>
+<summary>검색하기</summary>  
+<div markdown="1">
+</div>
+<img width="600" alt=""
+ src="https://user-images.githubusercontent.com/69576865/219004397-fbd20b54-6668-4f23-a62e-22c4bb91e441.gif">
+</details>
 
-### `npm test`
+<details>
+<summary>페이지 넘김</summary>  
+<div markdown="1">
+</div>
+<img width="600" alt=""
+ src="https://user-images.githubusercontent.com/69576865/219007207-4b5e8e62-bc03-4be6-8899-fe8bf60f8665.gif">
+</details>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<details>
+<summary>새로고침</summary>  
+ <img width="600" alt=""
+ src="https://user-images.githubusercontent.com/69576865/219009517-a7fffa79-09f6-445a-92d7-e73742cc086d.gif">
+ <div markdown="1">
+ </div>
+</details>
+</br>
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## :bust_in_silhouette: &nbsp; Crew
+Crew | Role | GitHub
+----- | ----- | -----
+💻 이동건 | Front-end | https://github.com/dong-geon-Lee
+<br/>
