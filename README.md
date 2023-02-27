@@ -5,7 +5,7 @@
 <br/>
 
 ## :link: &nbsp; Link
-- 준비중
+- https://shopping-admin-app.vercel.app/
 
 > 첫번쨰: 레포지토리를 다운로드 합니다.   
 > 두번쨰: 터미널에 npm install 입력합니다.   
