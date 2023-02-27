@@ -13,17 +13,19 @@ import "./Contents.scss";
 const Contents = () => {
   const pageStorage = parseInt(sessionStorage.getItem("page"));
   const selectStorage = parseInt(sessionStorage.getItem("selectedQty"));
+
   const [page, setPage] = useState(pageStorage || 1);
   const [seletedQty, setSeletedQty] = useState(selectStorage || 10);
-  const { isLoading, error } = useQuery("products", fetchProducts);
+  // const { isLoading, error } = useQuery("products", fetchProducts);
   const products = calcCurrentProduct(page, seletedQty);
-  const isProducts = products.length === 0;
+  // const products = JSON.parse(sessionStorage.getItem("items"));
+  // const isProducts = products?.length === 0;
 
-  if (isLoading) return <div className="loading">Loading...</div>;
-  if (error) return <div className="error">Error</div>;
-  if (isProducts) {
-    return <div className="error">Please search for a product.</div>;
-  }
+  // if (isLoading) return <div className="loading">Loading...</div>;
+  // if (error) return <div className="error">Error</div>;
+  // if (isProducts) {
+  //   return <div className="error">Please search for a product.</div>;
+  // }
 
   return (
     <div className="contents__container">

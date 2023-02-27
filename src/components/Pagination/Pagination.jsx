@@ -17,6 +17,7 @@ const Pagination = ({ page, setPage, seletedQty, setSeletedQty }) => {
     dispatch(changeQty(parseInt(e.target.value)));
     sessionStorage.setItem("selectedQty", seletedQty);
     sessionStorage.setItem("page", 1);
+    window.location.reload();
   };
 
   const handlePages = (page) => {
@@ -31,9 +32,8 @@ const Pagination = ({ page, setPage, seletedQty, setSeletedQty }) => {
   const pages = Math.ceil(state.products.length / state.selectedQty);
 
   useEffect(() => {
-    handlePages(page);
     handleSeletedQty(seletedQty);
-  }, [page, pages, seletedQty]);
+  }, [pages, seletedQty]);
 
   return (
     <div className="pagination__container">

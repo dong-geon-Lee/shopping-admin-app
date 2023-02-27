@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const productStorage = JSON.parse(sessionStorage.getItem("items"));
+const productStorage = JSON.parse(sessionStorage?.getItem("items"));
 const pageStorage = parseInt(sessionStorage.getItem("page"));
 const selectedQtyStorage = parseInt(sessionStorage.getItem("selectedQty"));
 
@@ -20,14 +20,13 @@ const productSlice = createSlice({
     changeQty: (state, action) => {
       state.selectedQty = action.payload;
     },
-
     updateProducts: (state, action) => {
       let products = action.payload;
-      let perPage = products?.length / parseInt(state.selectedQty);
-      let totalPage = products?.length / perPage;
+      let totalPage = products?.length / parseInt(state.selectedQty);
+      let perPageItems = products?.length / totalPage;
       let itemsQty = products?.slice(
-        totalPage * (state.page - 1),
-        totalPage * state.page
+        perPageItems * (state.page - 1),
+        perPageItems * state.page
       );
       state.products = itemsQty;
     },
