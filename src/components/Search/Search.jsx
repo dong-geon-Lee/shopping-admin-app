@@ -66,6 +66,7 @@ const Search = () => {
     e.preventDefault();
     sessionStorage.setItem("category", category);
     sessionStorage.setItem("search", searchValue);
+    sessionStorage.setItem("page", 1);
 
     if (category === "전체") findProductAll();
     if (category === "브랜드") findProductBrand();
@@ -88,7 +89,7 @@ const Search = () => {
                 {!categoryActive ? (
                   <img
                     src={arrowDown}
-                    alt="arrow-up"
+                    alt="arrow-down"
                     className="arrow__down"
                     onClick={() => handleCategory()}
                   />

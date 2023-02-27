@@ -11,7 +11,7 @@ export const calcBrandCount = (products, searchValue) => {
 export const calcProductTitleCount = (products, searchValue) => {
   return [
     ...new Set(
-      products.filter((product) => {
+      products?.filter((product) => {
         return product.title.toLowerCase().match(searchValue);
       })
     ),
@@ -19,26 +19,28 @@ export const calcProductTitleCount = (products, searchValue) => {
 };
 
 export const calcProductDesCount = (products, searchValue) => {
-  const descriptionItems = [
-    ...new Set(products.map((product) => product.description.toLowerCase())),
-  ];
+  const descriptionItems = products.map((product) => {
+    return product.description.toLowerCase();
+  });
 
   const findDesStr = descriptionItems.filter((item) => {
     return item.match(searchValue);
   });
 
-  const productDesList = products.filter((product) => {
-    return findDesStr.includes(product.description.toLowerCase());
-  });
-
-  return productDesList;
+  return [
+    ...new Set(
+      products.filter((product) => {
+        return findDesStr.includes(product.description.toLowerCase());
+      })
+    ),
+  ];
 };
 
 export const calcCurrentProduct = (page, seletedQty) => {
   let items = JSON.parse(sessionStorage.getItem("items")) || [];
-  let perPage = items.length / parseInt(seletedQty);
-  let totalPage = items.length / perPage;
-  let resultItems = items.slice(totalPage * (page - 1), totalPage * page);
+  let totalPage = items.length / parseInt(seletedQty);
+  let perPageItems = items.length / totalPage;
+  let resultItems = items.slice(perPageItems * (page - 1), perPageItems * page);
   return resultItems;
 };
 
